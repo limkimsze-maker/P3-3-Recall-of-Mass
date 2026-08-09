@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mass Recall Challenge</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:#eef8ff;color:#17324b}body{padding:8px}.app{height:calc(100vh - 16px);max-width:1200px;margin:auto;background:#fff;border:2px solid #cce8fb;border-radius:22px;overflow:hidden;display:flex;flex-direction:column}header{background:#0878c9;color:#fff;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}h1{margin:0;font-size:clamp(22px,3vw,36px)}header small{text-align:right}main{flex:1;min-height:0;padding:10px}.screen{display:none;height:100%}.screen.active{display:flex}.card{border:2px solid #d7edfb;border-radius:20px;background:#fff}
+#home{align-items:stretch}.homegrid{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px}.intro,.info{padding:18px}.intro h2{font-size:clamp(30px,4vw,50px);margin:0;color:#075a96}.intro p,.info li{font-size:clamp(15px,1.7vw,20px);line-height:1.45}.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.mode{border:0;border-radius:18px;color:#fff;padding:18px;font-weight:900;font-size:24px}.one{background:#4c91eb}.two{background:linear-gradient(90deg,#4c91eb 50%,#ef9235 50%)}
+#game{flex-direction:column;gap:7px}.top{display:flex;justify-content:space-between}.small{border:0;background:#eaf6ff;color:#075f9f;border-radius:10px;padding:8px 12px;font-weight:800}.status{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center}.score{padding:8px 12px;border:2px solid #dceeff;border-radius:12px;font-weight:900}.s2{text-align:right;border-color:#ffc592}.round{text-align:center;font-weight:900}.bar{height:8px;background:#e9f3f9;border-radius:99px;overflow:hidden}.bar div{height:100%;background:#0878c9}.panel{flex:1;min-height:0;padding:12px;display:flex;flex-direction:column}.badges{display:flex;justify-content:center;gap:8px}.badge{padding:6px 12px;border-radius:99px;font-weight:900;background:#eaf7ff;color:#0767aa}.turn{border:2px solid #bfd8ff;background:#edf5ff}.turn.orange{border-color:#ffd2a3;background:#fff4e9;color:#c16e18}#q{text-align:center;font-size:clamp(21px,2.6vw,31px);font-weight:900;margin:8px}.visual{flex:1;min-height:0;border:2px solid #d9edfa;border-radius:17px;display:flex;align-items:center;justify-content:center;padding:8px;overflow:hidden}.answers{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.ans{min-height:50px;border:3px solid #bedff4;border-radius:15px;background:#fff;font-size:clamp(17px,2vw,23px);font-weight:900}.ans.ok{border-color:#159650;background:#eaf9ef;color:#08743a}.ans.no{border-color:#c94b4b;background:#fff0f0;color:#b32e2e}.fb{text-align:center;min-height:24px;font-size:18px;font-weight:900;margin-top:5px}.next{display:none;margin:3px auto 0;border:0;background:#0878c9;color:#fff;border-radius:12px;padding:8px 18px;font-weight:900}
+.masspair{display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap}.obj{min-width:170px;border:2px solid #cfe8f9;border-radius:16px;padding:10px;text-align:center;background:#fff}.pic{font-size:56px}.name{font-weight:900;font-size:18px}.label{margin-top:6px;background:#edf8ff;border-radius:10px;padding:6px;font-weight:900;color:#075f9f}.scale{width:min(700px,100%);height:250px}
+#results{align-items:center;justify-content:center}.results{padding:25px;text-align:center;width:min(650px,100%)}.results h2{font-size:42px;color:#075a96}.big{border:0;border-radius:14px;background:#0878c9;color:#fff;padding:12px 18px;margin:5px;font-weight:900;font-size:18px}
+@media(max-width:800px){.homegrid{grid-template-columns:1fr}.info{display:none}}@media(max-height:720px){.panel{padding:8px}.scale{height:190px}.pic{font-size:42px}.obj{min-width:140px}.ans{min-height:44px}.intro p,.info li{font-size:14px}}
+</style>
+</head>
+<body><div class="app">
+<header><h1>⚖️ Mass Recall Challenge</h1><small>Read mass • Compare mass • kg or g<br>1 Player or 2 Players</small></header>
+<main>
+<section id="home" class="screen active"><div class="homegrid">
+<div class="card intro"><h2>Read. Compare. Win!</h2><p>Practise reading scales, choosing sensible units, comparing masses, finding differences and ordering objects by mass.</p><div class="modes"><button class="mode one" onclick="start(1)">👤 1 Player</button><button class="mode two" onclick="start(2)">👥 2 Players</button></div></div>
+<div class="card info"><h2>Question types</h2><ul><li>Read mass from a scale</li><li>Choose kg or g</li><li>Which is heavier or lighter?</li><li>How much heavier/lighter?</li><li>Order from lightest to heaviest</li></ul></div></div></section>
+
+<section id="game" class="screen">
+<div class="top"><div><button class="small" onclick="home()">← Home</button> <button class="small" onclick="restart()">↻ New Game</button></div><button id="sound" class="small" onclick="toggleSound()">🔊 Sound On</button></div>
+<div class="status"><div id="s1" class="score">Player 1: 0</div><div id="round" class="round">1 / 12</div><div id="s2" class="score s2">Player 2: 0</div></div><div class="bar"><div id="prog"></div></div>
+<div class="card panel"><div class="badges"><div id="tag" class="badge"></div><div id="turn" class="badge turn"></div></div><div id="q"></div><div id="visual" class="visual"></div><div id="answers" class="answers"></div><div id="fb" class="fb"></div><button id="next" class="next" onclick="nextQ()">Next →</button></div>
+</section>
+
+<section id="results" class="screen"><div class="card results"><div style="font-size:70px">🏆</div><h2 id="rt"></h2><p id="rr"></p><button class="big" onclick="restart()">Play Again</button><button class="big" onclick="home()">Choose Mode</button></div></section>
+</main></div>
+
+<script>
+const N=12;let mode=1,idx=0,player=0,scores=[0,0],qs=[],locked=false,soundOn=true,ctx=null;
+const objs=[
+ {n:"watermelon",e:"🍉",m:4,u:"kg"},{n:"school bag",e:"🎒",m:3,u:"kg"},{n:"bag of rice",e:"🍚",m:5,u:"kg"},{n:"cat",e:"🐈",m:4,u:"kg"},
+ {n:"book",e:"📕",m:450,u:"g"},{n:"apple",e:"🍎",m:180,u:"g"},{n:"orange",e:"🍊",m:220,u:"g"},{n:"pencil case",e:"✏️",m:300,u:"g"},{n:"bottle",e:"🧴",m:700,u:"g"},{n:"biscuits",e:"🍪",m:250,u:"g"}
+];
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function sh(a){return [...a].sort(()=>Math.random()-.5)}
+function pickTwoDifferentMass(pool){
+  const shuffled=sh(pool);
+  for(let i=0;i<shuffled.length;i++){
+    for(let j=i+1;j<shuffled.length;j++){
+      if(shuffled[i].m!==shuffled[j].m) return [shuffled[i],shuffled[j]];
+    }
+  }
+  return shuffled.slice(0,2);
+}
+function pickThreeDifferentMass(pool){
+  const shuffled=sh(pool);
+  const picked=[];
+  const seen=new Set();
+  for(const o of shuffled){
+    if(!seen.has(o.m)){
+      picked.push(o);
+      seen.add(o.m);
+      if(picked.length===3) break;
+    }
+  }
+  return picked;
+}
+function show(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active")}
+function home(){show("home")}
+function start(m){mode=m;initAudio();restart()}
+function restart(){idx=0;player=0;scores=[0,0];qs=build();document.getElementById("s2").style.visibility=mode===2?"visible":"hidden";show("game");render()}
+function initAudio(){if(ctx)return;let C=window.AudioContext||window.webkitAudioContext;if(C)ctx=new C()}
+function tone(f,d=.1){if(!soundOn)return;initAudio();if(!ctx)return;let o=ctx.createOscillator(),g=ctx.createGain(),t=ctx.currentTime;o.frequency.value=f;g.gain.setValueAtTime(.04,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(ctx.destination);o.start(t);o.stop(t+d)}
+function toggleSound(){soundOn=!soundOn;document.getElementById("sound").textContent=soundOn?"🔊 Sound On":"🔇 Sound Off"}
+function card(o,l){return `<div class="obj"><div class="pic">${o.e}</div><div class="name">${o.n}</div><div class="label">${l}</div></div>`}
+function scale(v,u,max){
+  // Keep the whole dial on the upper half so no tick labels are clipped.
+  const cx=350, cy=205, r=120;
+  const startDeg=-160;
+  const endDeg=-20;
+  let ticks="";
+  let labels="";
+
+  for(let i=0;i<=10;i++){
+    const deg=startDeg + i*((endDeg-startDeg)/10);
+    const angle=deg*Math.PI/180;
+
+    const x1=cx+Math.cos(angle)*(r-18);
+    const y1=cy+Math.sin(angle)*(r-18);
+    const x2=cx+Math.cos(angle)*(r+2);
+    const y2=cy+Math.sin(angle)*(r+2);
+
+    const tx=cx+Math.cos(angle)*(r+34);
+    const ty=cy+Math.sin(angle)*(r+34)+7;
+
+    const lab=u==="kg" ? i : i*100;
+
+    ticks += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#2f80d1" stroke-width="5" stroke-linecap="round"/>`;
+    labels += `<text x="${tx}" y="${ty}" font-size="22" text-anchor="middle" font-weight="900" fill="#17324b">${lab}</text>`;
+  }
+
+  const pointerDeg=startDeg + (v/max)*(endDeg-startDeg);
+  const pointerAngle=pointerDeg*Math.PI/180;
+  const px=cx+Math.cos(pointerAngle)*(r-28);
+  const py=cy+Math.sin(pointerAngle)*(r-28);
+
+  return `<svg class="scale" viewBox="0 0 700 300" aria-label="weighing scale">
+    <path d="M ${cx+Math.cos(startDeg*Math.PI/180)*r} ${cy+Math.sin(startDeg*Math.PI/180)*r}
+             A ${r} ${r} 0 0 1 ${cx+Math.cos(endDeg*Math.PI/180)*r} ${cy+Math.sin(endDeg*Math.PI/180)*r}"
+          fill="none" stroke="#2f80d1" stroke-width="5"/>
+    ${ticks}
+    ${labels}
+
+    <rect x="165" y="205" width="370" height="60" rx="16"
+          fill="#f7fbff" stroke="#2f80d1" stroke-width="5"/>
+
+    <line x1="${cx}" y1="${cy}" x2="${px}" y2="${py}"
+          stroke="#e84545" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="${cx}" cy="${cy}" r="11" fill="#e84545"/>
+
+    <text x="350" y="252" font-size="32" text-anchor="middle"
+          font-weight="900" fill="#17324b">${u}</text>
+  </svg>`;
+}
+function nums(a,u){
+  // Create 4 unique, sensible options so duplicates never appear.
+  let step=u==="kg"?1:100;
+  let candidates=[a, a-step, a+step, a+2*step, a-2*step, a+3*step];
+  let unique=[];
+  let seen=new Set();
+
+  for(let v of candidates){
+    if(v>0 && !seen.has(v)){
+      seen.add(v);
+      unique.push(`${v} ${u}`);
+    }
+    if(unique.length===4) break;
+  }
+
+  // Safety fallback: keep adding larger values until there are 4 unique choices.
+  let extra=a+4*step;
+  while(unique.length<4){
+    if(!seen.has(extra)){
+      seen.add(extra);
+      unique.push(`${extra} ${u}`);
+    }
+    extra+=step;
+  }
+
+  return sh(unique);
+}
+function build(){let q=[];
+ for(let i=0;i<3;i++){let kg=Math.random()<.5,v=kg?pick([1,2,3,4,5,6,7,8,9]):pick([100,200,300,400,500,600,700,800,900]),u=kg?"kg":"g";q.push({t:"Read mass",q:"What mass is shown on the scale?",v:scale(v,u,kg?10:1000),o:nums(v,u),a:`${v} ${u}`,x:`The pointer is at ${v} ${u}.`})}
+ sh(objs).slice(0,2).forEach(o=>q.push({t:"Choose unit",q:`A ${o.n} is about ${o.m} ___ .`,v:`<div class="masspair">${card(o,`${o.m} ___`)}</div>`,o:sh(["kg","g"]),a:o.u,x:`${o.m} ${o.u} is sensible for a ${o.n}.`}));
+ for(let i=0;i<3;i++){let u=Math.random()<.5?"kg":"g",p=objs.filter(o=>o.u===u),[a,b]=pickTwoDifferentMass(p),H=a.m>b.m?a:b,L=a.m>b.m?b:a,d=H.m-L.m;if(i===0)q.push({t:"Compare mass",q:"Which object is heavier?",v:`<div class="masspair">${card(a,`${a.m} ${u}`)}${card(b,`${b.m} ${u}`)}</div>`,o:sh([a.n,b.n]),a:H.n,x:`${H.m} ${u} is greater than ${L.m} ${u}.`});else q.push({t:"Compare mass",q:`How much heavier is the ${H.n} than the ${L.n}?`,v:`<div class="masspair">${card(H,`${H.m} ${u}`)}${card(L,`${L.m} ${u}`)}</div>`,o:nums(d,u),a:`${d} ${u}`,x:`${H.m} - ${L.m} = ${d} ${u}.`})}
+ for(let u of ["g","kg"]){let trio=pickThreeDifferentMass(objs.filter(o=>o.u===u)),s=[...trio].sort((a,b)=>a.m-b.m),A=s.map(x=>x.n).join(" → ");q.push({t:"Order mass",q:"Arrange from lightest to heaviest.",v:`<div class="masspair">${trio.map(x=>card(x,`${x.m} ${u}`)).join("")}</div>`,o:sh([A,[s[1],s[0],s[2]].map(x=>x.n).join(" → "),[...s].reverse().map(x=>x.n).join(" → "),[s[0],s[2],s[1]].map(x=>x.n).join(" → ")]),a:A,x:s.map(x=>`${x.m} ${u}`).join(" < ")})}
+ q.push({t:"Estimate mass",q:"Which is the most sensible mass for a school bag?",v:`<div class="masspair">${card({n:"school bag",e:"🎒"},"Mass ?")}</div>`,o:sh(["3 kg","3 g","300 g","30 kg"]),a:"3 kg",x:"3 kg is sensible."});
+ q.push({t:"Estimate mass",q:"Which is the most sensible mass for an apple?",v:`<div class="masspair">${card({n:"apple",e:"🍎"},"Mass ?")}</div>`,o:sh(["180 g","180 kg","18 kg","1 kg"]),a:"180 g",x:"180 g is sensible."});
+ return sh(q).slice(0,N)}
+function render(){locked=false;let q=qs[idx];document.getElementById("round").textContent=`${idx+1} / ${N}`;document.getElementById("prog").style.width=`${idx/N*100}%`;document.getElementById("s1").textContent=`Player 1: ${scores[0]}`;document.getElementById("s2").textContent=`Player 2: ${scores[1]}`;document.getElementById("tag").textContent=q.t;document.getElementById("q").textContent=q.q;document.getElementById("visual").innerHTML=q.v;document.getElementById("fb").textContent="";document.getElementById("next").style.display="none";let t=document.getElementById("turn");if(mode===2){t.textContent=player===0?"🔵 Player 1's Turn":"🟠 Player 2's Turn";t.className="badge turn "+(player===1?"orange":"")}else{t.textContent="👤 Your Turn";t.className="badge turn"}let box=document.getElementById("answers");box.innerHTML="";q.o.forEach(op=>{let b=document.createElement("button");b.className="ans";b.textContent=op;b.onclick=()=>answer(b,op);box.appendChild(b)})}
+function answer(b,op){if(locked)return;locked=true;let q=qs[idx],ok=op===q.a;document.querySelectorAll(".ans").forEach(x=>x.disabled=true);if(ok){b.classList.add("ok");tone(700);scores[mode===2?player:0]++;fb(`✅ Correct! ${q.x}`,true)}else{b.classList.add("no");tone(200);document.querySelectorAll(".ans").forEach(x=>{if(x.textContent.trim()===q.a)x.classList.add("ok")});fb(`💡 ${q.x}`,false)}document.getElementById("s1").textContent=`Player 1: ${scores[0]}`;document.getElementById("s2").textContent=`Player 2: ${scores[1]}`;document.getElementById("next").style.display="block"}
+function fb(t,g){let f=document.getElementById("fb");f.textContent=t;f.style.color=g?"#14884b":"#b43b3b"}
+function nextQ(){idx++;if(idx>=N){finish();return}if(mode===2)player=1-player;render()}
+function finish(){show("results");if(mode===1){document.getElementById("rt").textContent="Mass Challenge Complete!";document.getElementById("rr").innerHTML=`You scored <b>${scores[0]} / ${N}</b>.`}else{let a=scores[0],b=scores[1];document.getElementById("rt").textContent=a===b?"It's a Draw!":`Player ${a>b?1:2} Wins!`;document.getElementById("rr").innerHTML=`Player 1: <b>${a}</b><br>Player 2: <b>${b}</b>`}}
+</script></body></html>
