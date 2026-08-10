@@ -2,158 +2,58 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mass Recall Challenge</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bowling Mass Challenge</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:#eef8ff;color:#17324b}body{padding:8px}.app{height:calc(100vh - 16px);max-width:1200px;margin:auto;background:#fff;border:2px solid #cce8fb;border-radius:22px;overflow:hidden;display:flex;flex-direction:column}header{background:#0878c9;color:#fff;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}h1{margin:0;font-size:clamp(22px,3vw,36px)}header small{text-align:right}main{flex:1;min-height:0;padding:10px}.screen{display:none;height:100%}.screen.active{display:flex}.card{border:2px solid #d7edfb;border-radius:20px;background:#fff}
-#home{align-items:stretch}.homegrid{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px}.intro,.info{padding:18px}.intro h2{font-size:clamp(30px,4vw,50px);margin:0;color:#075a96}.intro p,.info li{font-size:clamp(15px,1.7vw,20px);line-height:1.45}.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.mode{border:0;border-radius:18px;color:#fff;padding:18px;font-weight:900;font-size:24px}.one{background:#4c91eb}.two{background:linear-gradient(90deg,#4c91eb 50%,#ef9235 50%)}
-#game{flex-direction:column;gap:7px}.top{display:flex;justify-content:space-between}.small{border:0;background:#eaf6ff;color:#075f9f;border-radius:10px;padding:8px 12px;font-weight:800}.status{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center}.score{padding:8px 12px;border:2px solid #dceeff;border-radius:12px;font-weight:900}.s2{text-align:right;border-color:#ffc592}.round{text-align:center;font-weight:900}.bar{height:8px;background:#e9f3f9;border-radius:99px;overflow:hidden}.bar div{height:100%;background:#0878c9}.panel{flex:1;min-height:0;padding:12px;display:flex;flex-direction:column}.badges{display:flex;justify-content:center;gap:8px}.badge{padding:6px 12px;border-radius:99px;font-weight:900;background:#eaf7ff;color:#0767aa}.turn{border:2px solid #bfd8ff;background:#edf5ff}.turn.orange{border-color:#ffd2a3;background:#fff4e9;color:#c16e18}#q{text-align:center;font-size:clamp(21px,2.6vw,31px);font-weight:900;margin:8px}.visual{flex:1;min-height:0;border:2px solid #d9edfa;border-radius:17px;display:flex;align-items:center;justify-content:center;padding:8px;overflow:hidden}.answers{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.ans{min-height:50px;border:3px solid #bedff4;border-radius:15px;background:#fff;font-size:clamp(17px,2vw,23px);font-weight:900}.ans.ok{border-color:#159650;background:#eaf9ef;color:#08743a}.ans.no{border-color:#c94b4b;background:#fff0f0;color:#b32e2e}.fb{text-align:center;min-height:24px;font-size:18px;font-weight:900;margin-top:5px}.next{display:none;margin:3px auto 0;border:0;background:#0878c9;color:#fff;border-radius:12px;padding:8px 18px;font-weight:900}
-.masspair{display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap}.obj{min-width:170px;border:2px solid #cfe8f9;border-radius:16px;padding:10px;text-align:center;background:#fff}.pic{font-size:56px}.name{font-weight:900;font-size:18px}.label{margin-top:6px;background:#edf8ff;border-radius:10px;padding:6px;font-weight:900;color:#075f9f}.scale{width:min(700px,100%);height:250px}
-#results{align-items:center;justify-content:center}.results{padding:25px;text-align:center;width:min(650px,100%)}.results h2{font-size:42px;color:#075a96}.big{border:0;border-radius:14px;background:#0878c9;color:#fff;padding:12px 18px;margin:5px;font-weight:900;font-size:18px}
-@media(max-width:800px){.homegrid{grid-template-columns:1fr}.info{display:none}}@media(max-height:720px){.panel{padding:8px}.scale{height:190px}.pic{font-size:42px}.obj{min-width:140px}.ans{min-height:44px}.intro p,.info li{font-size:14px}}
+:root{--navy:#145786;--blue:#2e8bd7;--p1:#2e8bd7;--p2:#ef8a32;--ink:#17324b;--good:#168f4d;--bad:#c74848;--lane:#d8a866;--cream:#fff9ed}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:"Trebuchet MS","Arial Rounded MT Bold",Arial,sans-serif;background:linear-gradient(#e8f6ff,#fff);color:var(--ink)}body{padding:8px;padding-left:max(8px,env(safe-area-inset-left));padding-right:max(8px,env(safe-area-inset-right));padding-bottom:max(8px,env(safe-area-inset-bottom))}button{font:inherit;cursor:pointer;touch-action:manipulation}svg{max-width:100%}.app{height:calc(100vh - 16px);width:min(1220px,100%);margin:auto;background:#fff;border:2px solid #cce8f8;border-radius:22px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 28px #236f9e20}header{flex:0 0 auto;background:linear-gradient(100deg,#10527e,#197bb5);color:#fff;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px}h1{margin:0;font-size:clamp(21px,2.8vw,36px)}header small{text-align:right;font-size:12px;line-height:1.25}main{flex:1;min-height:0;padding:9px}.screen{display:none;height:100%;min-height:0}.screen.active{display:flex}.card{border:2px solid #d7ebf7;border-radius:20px;background:#fff;box-shadow:0 6px 16px #2c79a813}.hidden{display:none!important}
+#home{align-items:stretch}.homegrid{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}.intro,.info{padding:18px;overflow:hidden}.intro h2{font-size:clamp(30px,4.2vw,52px);line-height:1.02;margin:0 0 8px;color:#0f5f94}.intro p,.info li{font-size:clamp(15px,1.65vw,20px);line-height:1.4}.modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:17px}.mode{min-width:0;border:0;border-radius:18px;color:#fff;padding:18px 8px;font-weight:900;font-size:clamp(20px,2.2vw,26px);white-space:normal}.one{background:var(--p1)}.two{background:linear-gradient(90deg,var(--p1) 50%,var(--p2) 50%)}.info h2{margin:0 0 7px;color:#0f5f94}.miniBowling{height:155px;border:2px solid #cce7f5;border-radius:18px;position:relative;overflow:hidden;background:linear-gradient(#eefaff 0 25%,#d7a767 25% 100%);margin-top:8px}.miniLane{position:absolute;left:8%;right:8%;top:28%;bottom:0;background:linear-gradient(90deg,#d2a05f,#efd097 50%,#d2a05f);clip-path:polygon(24% 0,76% 0,100% 100%,0 100%)}.miniBall{position:absolute;left:47%;bottom:14px;width:45px;height:45px;border-radius:50%;background:#2e8bd7;box-shadow:inset -8px -8px 0 #1769a4}.miniBall:before,.miniBall:after{content:"";position:absolute;width:6px;height:6px;background:#122e42;border-radius:50%;top:11px}.miniBall:before{left:15px}.miniBall:after{left:25px}.miniPins{position:absolute;top:38px;left:50%;transform:translateX(-50%);font-size:34px;letter-spacing:-5px}.note{font-size:12px;color:#627989;text-align:center;margin-top:7px;line-height:1.3}
+#game{flex-direction:column;gap:6px;min-width:0;width:100%}.top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex:0 0 auto}.small{border:0;background:#eaf6ff;color:#075f9f;border-radius:10px;padding:8px 12px;font-weight:800;font-size:14px}.status{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:7px;align-items:center;flex:0 0 auto}.score{min-width:0;padding:8px 10px;border:2px solid #dceeff;border-radius:12px;font-weight:900;font-size:clamp(13px,1.45vw,18px);overflow-wrap:anywhere}.s2{text-align:right;border-color:#ffc592}.round{text-align:center;font-weight:900;font-size:clamp(13px,1.4vw,18px);white-space:nowrap}.bar{height:7px;background:#e9f3f9;border-radius:99px;overflow:hidden;flex:0 0 auto}.bar div{height:100%;background:#0878c9;width:0;transition:.25s}.gamegrid{flex:1;min-height:0;display:grid;grid-template-rows:minmax(165px,35%) minmax(0,65%);gap:7px}.alley{position:relative;overflow:hidden;border:2px solid #d2e9f5;border-radius:18px;background:linear-gradient(#eaf8ff 0 23%,#c89655 23% 100%)}.backwall{position:absolute;left:0;right:0;top:0;height:23%;background:linear-gradient(#dff3ff,#f8fdff);border-bottom:3px solid #a9d3e9}.lane{position:absolute;left:8%;right:8%;top:23%;bottom:0;background:linear-gradient(90deg,#c68f4e 0,#f0cb8c 11%,#efd29d 50%,#f0cb8c 89%,#c68f4e 100%);clip-path:polygon(27% 0,73% 0,100% 100%,0 100%);border-top:4px solid #f8e2b8}.foul{position:absolute;left:15%;right:15%;bottom:22%;height:4px;background:#813c35;z-index:2}.pins{position:absolute;left:50%;top:18%;width:160px;height:86px;transform:translateX(-50%);z-index:5}.pin{position:absolute;width:18px;height:42px;background:#fff;border:2px solid #cbd7df;border-radius:48% 48% 35% 35%;transform-origin:50% 100%;transition:transform .35s,opacity .35s}.pin:before{content:"";position:absolute;left:1px;right:1px;top:10px;height:4px;background:#e34e4e;border-radius:2px}.pin.knocked{transform:rotate(72deg) translate(10px,6px);opacity:.38}.ball{position:absolute;left:50%;bottom:6%;width:54px;height:54px;border-radius:50%;background:var(--p1);box-shadow:inset -9px -9px 0 #1d679e,0 5px 8px #0002;transform:translateX(-50%);z-index:7;opacity:0}.ball.orange{background:var(--p2);box-shadow:inset -9px -9px 0 #b95e14,0 5px 8px #0002}.ball:before,.ball:after{content:"";position:absolute;width:7px;height:7px;border-radius:50%;background:#142d3d;top:13px}.ball:before{left:18px}.ball:after{left:29px}.hole3{position:absolute;width:7px;height:7px;border-radius:50%;background:#142d3d;top:24px;left:23px}.alleyMsg{position:absolute;top:5px;left:50%;transform:translateX(-50%);z-index:10;background:#ffffffe8;border:2px solid #cce5f2;border-radius:999px;padding:5px 10px;font-size:clamp(11px,1.25vw,15px);font-weight:900;white-space:nowrap}.strikeBurst{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);font-size:clamp(34px,6vw,72px);font-weight:900;color:#e45d18;text-shadow:0 3px #fff;z-index:11;display:none}.gutter{position:absolute;left:50%;top:55%;transform:translate(-50%,-50%);font-size:clamp(28px,5vw,58px);font-weight:900;color:#466878;text-shadow:0 2px #fff;z-index:11;display:none}
+.panel{min-height:0;padding:10px;display:flex;flex-direction:column;overflow:hidden}.badges{display:flex;justify-content:center;gap:7px;flex-wrap:wrap}.badge{padding:5px 10px;border-radius:99px;font-weight:900;background:#eaf7ff;color:#0767aa;font-size:clamp(12px,1.4vw,17px)}.turn{border:2px solid #bfd8ff;background:#edf5ff}.turn.orange{border-color:#ffd2a3;background:#fff4e9;color:#c16e18}#q{text-align:center;font-size:clamp(19px,2.5vw,30px);font-weight:900;margin:6px 5px;line-height:1.18}.visual{flex:1;min-height:0;border:2px solid #d9edfa;border-radius:16px;display:flex;align-items:center;justify-content:center;padding:6px;overflow:hidden}.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:7px}.ans{min-width:0;min-height:47px;border:3px solid #bedff4;border-radius:14px;background:#fff;font-size:clamp(15px,1.9vw,22px);font-weight:900;white-space:normal;overflow-wrap:anywhere;padding:6px}.ans.ok{border-color:#159650;background:#eaf9ef;color:#08743a}.ans.no{border-color:#c94b4b;background:#fff0f0;color:#b32e2e}.fb{text-align:center;min-height:22px;font-size:clamp(14px,1.55vw,18px);font-weight:900;margin-top:4px}.next{display:none;margin:2px auto 0;border:0;background:#0878c9;color:#fff;border-radius:12px;padding:7px 16px;font-weight:900}.masspair{display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;width:100%}.obj{flex:1 1 135px;min-width:0;max-width:190px;border:2px solid #cfe8f9;border-radius:15px;padding:7px;text-align:center;background:#fff}.pic{font-size:clamp(34px,5vw,54px)}.name{font-weight:900;font-size:clamp(13px,1.7vw,18px);overflow-wrap:anywhere}.label{margin-top:5px;background:#edf8ff;border-radius:9px;padding:5px;font-weight:900;color:#075f9f;font-size:clamp(12px,1.5vw,16px)}.scale{width:min(650px,100%);height:min(220px,100%)}
+#results{align-items:center;justify-content:center}.results{padding:24px;text-align:center;width:min(650px,100%)}.results h2{font-size:clamp(32px,4vw,44px);color:#075a96}.results p{font-size:clamp(17px,2vw,22px);line-height:1.45}.big{border:0;border-radius:14px;background:#0878c9;color:#fff;padding:12px 18px;margin:5px;font-weight:900;font-size:18px}
+@media(max-width:820px){.homegrid{grid-template-columns:1fr}.info{display:none}.gamegrid{grid-template-rows:minmax(145px,32%) minmax(0,68%)}}
+@media(max-width:560px){body{padding:0}.app{height:100vh;border:0;border-radius:0;box-shadow:none}header{padding:8px 10px}header small{font-size:10px}main{padding:6px}.small{padding:6px 8px;font-size:12px}.status{grid-template-columns:minmax(0,1fr) 55px minmax(0,1fr);gap:4px}.score{padding:5px;font-size:11px}.round{font-size:11px}.gamegrid{grid-template-rows:minmax(122px,29%) minmax(0,71%);gap:5px}.pins{width:130px;height:72px}.pin{width:15px;height:35px}.ball{width:42px;height:42px}.ball:before,.ball:after,.hole3{width:5px;height:5px}.ball:before{left:14px;top:10px}.ball:after{left:23px;top:10px}.hole3{left:18px;top:19px}.alleyMsg{font-size:9px;padding:3px 6px}.panel{padding:6px}.badge{font-size:10px;padding:3px 6px}#q{font-size:17px;margin:4px}.visual{padding:4px}.masspair{gap:5px}.obj{flex-basis:110px;max-width:150px;padding:4px}.pic{font-size:31px}.name,.label{font-size:11px}.scale{height:150px}.answers{gap:5px;margin-top:5px}.ans{min-height:39px;font-size:14px;border-width:2px}.fb{font-size:12px;min-height:17px}.next{font-size:13px;padding:5px 11px}.intro{padding:14px}.intro h2{font-size:34px}.mode{padding:15px 5px;font-size:18px}}
+@media(max-width:410px) and (orientation:portrait){header small{display:none}.answers{grid-template-columns:1fr}.gamegrid{grid-template-rows:minmax(110px,27%) minmax(0,73%)}.pins{transform:translateX(-50%) scale(.82);transform-origin:top center}.scale{height:125px}.obj{flex-basis:95px;max-width:132px}.pic{font-size:27px}#q{font-size:15px}.ans{min-height:34px;font-size:13px}}
+@media(max-height:580px) and (orientation:landscape){body{padding:0}.app{height:100vh;border:0;border-radius:0}header{padding:4px 9px}h1{font-size:18px}header small{font-size:8px}main{padding:4px}.top{gap:3px}.small{padding:4px 7px;font-size:10px}.status{gap:3px}.score{padding:3px 5px;font-size:10px}.round{font-size:10px}.bar{height:4px}.gamegrid{grid-template-rows:minmax(82px,27%) minmax(0,73%);gap:3px}.pins{top:16%;transform:translateX(-50%) scale(.7);transform-origin:top center}.ball{width:30px;height:30px}.ball:before,.ball:after,.hole3{display:none}.alleyMsg{font-size:8px;padding:2px 5px}.panel{padding:4px}.badges{gap:3px}.badge{font-size:9px;padding:2px 5px}#q{font-size:13px;margin:2px}.visual{padding:2px}.scale{height:90px}.obj{padding:2px;max-width:115px}.pic{font-size:23px}.name,.label{font-size:9px}.label{padding:2px;margin-top:2px}.answers{gap:3px;margin-top:3px}.ans{min-height:28px;font-size:11px;padding:2px}.fb{font-size:10px;min-height:13px;margin-top:2px}.next{font-size:10px;padding:3px 8px}}
 </style>
 </head>
 <body><div class="app">
-<header><h1>⚖️ Mass Recall Challenge</h1><small>Read mass • Compare mass • kg or g<br>1 Player or 2 Players</small></header>
+<header><h1>🎳 Bowling Mass Challenge</h1><small>Sports Fiesta • Recall of Mass<br>Read • Compare • g or kg</small></header>
 <main>
 <section id="home" class="screen active"><div class="homegrid">
-<div class="card intro"><h2>Read. Compare. Win!</h2><p>Practise reading scales, choosing sensible units, comparing masses, finding differences and ordering objects by mass.</p><div class="modes"><button class="mode one" onclick="start(1)">👤 1 Player</button><button class="mode two" onclick="start(2)">👥 2 Players</button></div></div>
-<div class="card info"><h2>Question types</h2><ul><li>Read mass from a scale</li><li>Choose kg or g</li><li>Which is heavier or lighter?</li><li>How much heavier/lighter?</li><li>Order from lightest to heaviest</li></ul></div></div></section>
+<div class="card intro"><h2>Measure. Bowl. Strike!</h2><p>Practise reading scales, choosing sensible units, comparing masses, finding differences and ordering objects by mass.</p><div class="modes"><button class="mode one" onclick="start(1)">🎳 1 Player<br><small>12 rolls</small></button><button class="mode two" onclick="start(2)">🎳🎳 2 Players<br><small>6 rolls each</small></button></div><div class="note">Correct answer = STRIKE = 10 pins. Wrong answer = gutter ball = 0 pins.</div></div>
+<div class="card info"><h2>Bowling Mass Event</h2><ul><li>Read mass from a scale</li><li>Choose <b>kg</b> or <b>g</b></li><li>Identify heavier and lighter objects</li><li>Find how much heavier or lighter</li><li>Order objects from lightest to heaviest</li><li>Choose a sensible mass</li></ul><div class="miniBowling"><div class="miniLane"></div><div class="miniPins">🎳🎳🎳</div><div class="miniBall"></div></div></div>
+</div></section>
 
 <section id="game" class="screen">
 <div class="top"><div><button class="small" onclick="home()">← Home</button> <button class="small" onclick="restart()">↻ New Game</button></div><button id="sound" class="small" onclick="toggleSound()">🔊 Sound On</button></div>
-<div class="status"><div id="s1" class="score">Player 1: 0</div><div id="round" class="round">1 / 12</div><div id="s2" class="score s2">Player 2: 0</div></div><div class="bar"><div id="prog"></div></div>
-<div class="card panel"><div class="badges"><div id="tag" class="badge"></div><div id="turn" class="badge turn"></div></div><div id="q"></div><div id="visual" class="visual"></div><div id="answers" class="answers"></div><div id="fb" class="fb"></div><button id="next" class="next" onclick="nextQ()">Next →</button></div>
-</section>
+<div class="status"><div id="s1" class="score">Player 1: 0 pins</div><div id="round" class="round">Roll 1 / 12</div><div id="s2" class="score s2">Player 2: 0 pins</div></div><div class="bar"><div id="prog"></div></div>
+<div class="gamegrid">
+<div class="alley" id="alley"><div class="backwall"></div><div class="lane"></div><div class="foul"></div><div id="pins" class="pins"></div><div id="ball" class="ball"><span class="hole3"></span></div><div id="alleyMsg" class="alleyMsg">Answer correctly for a strike!</div><div id="strikeBurst" class="strikeBurst">STRIKE! 🎉</div><div id="gutter" class="gutter">GUTTER</div></div>
+<div class="card panel"><div class="badges"><div id="tag" class="badge"></div><div id="turn" class="badge turn"></div></div><div id="q"></div><div id="visual" class="visual"></div><div id="answers" class="answers"></div><div id="fb" class="fb"></div><button id="next" class="next" onclick="nextQ()">Next Roll →</button></div>
+</div></section>
 
-<section id="results" class="screen"><div class="card results"><div style="font-size:70px">🏆</div><h2 id="rt"></h2><p id="rr"></p><button class="big" onclick="restart()">Play Again</button><button class="big" onclick="home()">Choose Mode</button></div></section>
+<section id="results" class="screen"><div class="card results"><div style="font-size:70px">🏆</div><h2 id="rt"></h2><p id="rr"></p><button class="big" onclick="restart()">Bowl Again</button><button class="big" onclick="home()">Choose Mode</button></div></section>
 </main></div>
-
 <script>
-const N=12;let mode=1,idx=0,player=0,scores=[0,0],qs=[],locked=false,soundOn=true,ctx=null;
-const objs=[
- {n:"watermelon",e:"🍉",m:4,u:"kg"},{n:"school bag",e:"🎒",m:3,u:"kg"},{n:"bag of rice",e:"🍚",m:5,u:"kg"},{n:"cat",e:"🐈",m:4,u:"kg"},
- {n:"book",e:"📕",m:450,u:"g"},{n:"apple",e:"🍎",m:180,u:"g"},{n:"orange",e:"🍊",m:220,u:"g"},{n:"pencil case",e:"✏️",m:300,u:"g"},{n:"bottle",e:"🧴",m:700,u:"g"},{n:"biscuits",e:"🍪",m:250,u:"g"}
-];
-function pick(a){return a[Math.floor(Math.random()*a.length)]}
-function sh(a){return [...a].sort(()=>Math.random()-.5)}
-function pickTwoDifferentMass(pool){
-  const shuffled=sh(pool);
-  for(let i=0;i<shuffled.length;i++){
-    for(let j=i+1;j<shuffled.length;j++){
-      if(shuffled[i].m!==shuffled[j].m) return [shuffled[i],shuffled[j]];
-    }
-  }
-  return shuffled.slice(0,2);
-}
-function pickThreeDifferentMass(pool){
-  const shuffled=sh(pool);
-  const picked=[];
-  const seen=new Set();
-  for(const o of shuffled){
-    if(!seen.has(o.m)){
-      picked.push(o);
-      seen.add(o.m);
-      if(picked.length===3) break;
-    }
-  }
-  return picked;
-}
-function show(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active")}
-function home(){show("home")}
-function start(m){mode=m;initAudio();restart()}
-function restart(){idx=0;player=0;scores=[0,0];qs=build();document.getElementById("s2").style.visibility=mode===2?"visible":"hidden";show("game");render()}
-function initAudio(){if(ctx)return;let C=window.AudioContext||window.webkitAudioContext;if(C)ctx=new C()}
-function tone(f,d=.1){if(!soundOn)return;initAudio();if(!ctx)return;let o=ctx.createOscillator(),g=ctx.createGain(),t=ctx.currentTime;o.frequency.value=f;g.gain.setValueAtTime(.04,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(ctx.destination);o.start(t);o.stop(t+d)}
-function toggleSound(){soundOn=!soundOn;document.getElementById("sound").textContent=soundOn?"🔊 Sound On":"🔇 Sound Off"}
+const N=12;let mode=1,idx=0,player=0,scores=[0,0],corrects=[0,0],qs=[],locked=false,soundOn=true,ctx=null;
+const objs=[{n:"watermelon",e:"🍉",m:4,u:"kg"},{n:"school bag",e:"🎒",m:3,u:"kg"},{n:"bag of rice",e:"🍚",m:5,u:"kg"},{n:"cat",e:"🐈",m:4,u:"kg"},{n:"book",e:"📕",m:450,u:"g"},{n:"apple",e:"🍎",m:180,u:"g"},{n:"orange",e:"🍊",m:220,u:"g"},{n:"pencil case",e:"✏️",m:300,u:"g"},{n:"bottle",e:"🧴",m:700,u:"g"},{n:"biscuits",e:"🍪",m:250,u:"g"}];
+function pick(a){return a[Math.floor(Math.random()*a.length)]}function sh(a){return [...a].sort(()=>Math.random()-.5)}function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+function pickTwoDifferentMass(pool){const s=sh(pool);for(let i=0;i<s.length;i++)for(let j=i+1;j<s.length;j++)if(s[i].m!==s[j].m)return[s[i],s[j]];return s.slice(0,2)}
+function pickThreeDifferentMass(pool){const s=sh(pool),p=[],seen=new Set();for(const o of s)if(!seen.has(o.m)){p.push(o);seen.add(o.m);if(p.length===3)break}return p}
+function show(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active")}function home(){show("home")}function start(m){mode=m;initAudio();restart()}
+function restart(){idx=0;player=0;scores=[0,0];corrects=[0,0];qs=build();document.getElementById("s2").style.visibility=mode===2?"visible":"hidden";show("game");render()}
+function initAudio(){if(ctx)return;const C=window.AudioContext||window.webkitAudioContext;if(C)ctx=new C()}function tone(f,d=.1,delay=0){if(!soundOn)return;initAudio();if(!ctx)return;const o=ctx.createOscillator(),g=ctx.createGain(),t=ctx.currentTime+delay;o.frequency.value=f;g.gain.setValueAtTime(.04,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(ctx.destination);o.start(t);o.stop(t+d)}function correctSound(){tone(600,.08);tone(800,.1,.09)}function wrongSound(){tone(190,.16)}function rollSound(){tone(250,.05);tone(330,.05,.06)}function strikeSound(){tone(520,.06);tone(700,.07,.07);tone(900,.1,.14)}function toggleSound(){soundOn=!soundOn;document.getElementById("sound").textContent=soundOn?"🔊 Sound On":"🔇 Sound Off"}
 function card(o,l){return `<div class="obj"><div class="pic">${o.e}</div><div class="name">${o.n}</div><div class="label">${l}</div></div>`}
-function scale(v,u,max){
-  // Keep the whole dial on the upper half so no tick labels are clipped.
-  const cx=350, cy=205, r=120;
-  const startDeg=-160;
-  const endDeg=-20;
-  let ticks="";
-  let labels="";
-
-  for(let i=0;i<=10;i++){
-    const deg=startDeg + i*((endDeg-startDeg)/10);
-    const angle=deg*Math.PI/180;
-
-    const x1=cx+Math.cos(angle)*(r-18);
-    const y1=cy+Math.sin(angle)*(r-18);
-    const x2=cx+Math.cos(angle)*(r+2);
-    const y2=cy+Math.sin(angle)*(r+2);
-
-    const tx=cx+Math.cos(angle)*(r+34);
-    const ty=cy+Math.sin(angle)*(r+34)+7;
-
-    const lab=u==="kg" ? i : i*100;
-
-    ticks += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#2f80d1" stroke-width="5" stroke-linecap="round"/>`;
-    labels += `<text x="${tx}" y="${ty}" font-size="22" text-anchor="middle" font-weight="900" fill="#17324b">${lab}</text>`;
-  }
-
-  const pointerDeg=startDeg + (v/max)*(endDeg-startDeg);
-  const pointerAngle=pointerDeg*Math.PI/180;
-  const px=cx+Math.cos(pointerAngle)*(r-28);
-  const py=cy+Math.sin(pointerAngle)*(r-28);
-
-  return `<svg class="scale" viewBox="0 0 700 300" aria-label="weighing scale">
-    <path d="M ${cx+Math.cos(startDeg*Math.PI/180)*r} ${cy+Math.sin(startDeg*Math.PI/180)*r}
-             A ${r} ${r} 0 0 1 ${cx+Math.cos(endDeg*Math.PI/180)*r} ${cy+Math.sin(endDeg*Math.PI/180)*r}"
-          fill="none" stroke="#2f80d1" stroke-width="5"/>
-    ${ticks}
-    ${labels}
-
-    <rect x="165" y="205" width="370" height="60" rx="16"
-          fill="#f7fbff" stroke="#2f80d1" stroke-width="5"/>
-
-    <line x1="${cx}" y1="${cy}" x2="${px}" y2="${py}"
-          stroke="#e84545" stroke-width="8" stroke-linecap="round"/>
-    <circle cx="${cx}" cy="${cy}" r="11" fill="#e84545"/>
-
-    <text x="350" y="252" font-size="32" text-anchor="middle"
-          font-weight="900" fill="#17324b">${u}</text>
-  </svg>`;
-}
-function nums(a,u){
-  // Create 4 unique, sensible options so duplicates never appear.
-  let step=u==="kg"?1:100;
-  let candidates=[a, a-step, a+step, a+2*step, a-2*step, a+3*step];
-  let unique=[];
-  let seen=new Set();
-
-  for(let v of candidates){
-    if(v>0 && !seen.has(v)){
-      seen.add(v);
-      unique.push(`${v} ${u}`);
-    }
-    if(unique.length===4) break;
-  }
-
-  // Safety fallback: keep adding larger values until there are 4 unique choices.
-  let extra=a+4*step;
-  while(unique.length<4){
-    if(!seen.has(extra)){
-      seen.add(extra);
-      unique.push(`${extra} ${u}`);
-    }
-    extra+=step;
-  }
-
-  return sh(unique);
-}
-function build(){let q=[];
- for(let i=0;i<3;i++){let kg=Math.random()<.5,v=kg?pick([1,2,3,4,5,6,7,8,9]):pick([100,200,300,400,500,600,700,800,900]),u=kg?"kg":"g";q.push({t:"Read mass",q:"What mass is shown on the scale?",v:scale(v,u,kg?10:1000),o:nums(v,u),a:`${v} ${u}`,x:`The pointer is at ${v} ${u}.`})}
- sh(objs).slice(0,2).forEach(o=>q.push({t:"Choose unit",q:`A ${o.n} is about ${o.m} ___ .`,v:`<div class="masspair">${card(o,`${o.m} ___`)}</div>`,o:sh(["kg","g"]),a:o.u,x:`${o.m} ${o.u} is sensible for a ${o.n}.`}));
- for(let i=0;i<3;i++){let u=Math.random()<.5?"kg":"g",p=objs.filter(o=>o.u===u),[a,b]=pickTwoDifferentMass(p),H=a.m>b.m?a:b,L=a.m>b.m?b:a,d=H.m-L.m;if(i===0)q.push({t:"Compare mass",q:"Which object is heavier?",v:`<div class="masspair">${card(a,`${a.m} ${u}`)}${card(b,`${b.m} ${u}`)}</div>`,o:sh([a.n,b.n]),a:H.n,x:`${H.m} ${u} is greater than ${L.m} ${u}.`});else q.push({t:"Compare mass",q:`How much heavier is the ${H.n} than the ${L.n}?`,v:`<div class="masspair">${card(H,`${H.m} ${u}`)}${card(L,`${L.m} ${u}`)}</div>`,o:nums(d,u),a:`${d} ${u}`,x:`${H.m} - ${L.m} = ${d} ${u}.`})}
- for(let u of ["g","kg"]){let trio=pickThreeDifferentMass(objs.filter(o=>o.u===u)),s=[...trio].sort((a,b)=>a.m-b.m),A=s.map(x=>x.n).join(" → ");q.push({t:"Order mass",q:"Arrange from lightest to heaviest.",v:`<div class="masspair">${trio.map(x=>card(x,`${x.m} ${u}`)).join("")}</div>`,o:sh([A,[s[1],s[0],s[2]].map(x=>x.n).join(" → "),[...s].reverse().map(x=>x.n).join(" → "),[s[0],s[2],s[1]].map(x=>x.n).join(" → ")]),a:A,x:s.map(x=>`${x.m} ${u}`).join(" < ")})}
- q.push({t:"Estimate mass",q:"Which is the most sensible mass for a school bag?",v:`<div class="masspair">${card({n:"school bag",e:"🎒"},"Mass ?")}</div>`,o:sh(["3 kg","3 g","300 g","30 kg"]),a:"3 kg",x:"3 kg is sensible."});
- q.push({t:"Estimate mass",q:"Which is the most sensible mass for an apple?",v:`<div class="masspair">${card({n:"apple",e:"🍎"},"Mass ?")}</div>`,o:sh(["180 g","180 kg","18 kg","1 kg"]),a:"180 g",x:"180 g is sensible."});
- return sh(q).slice(0,N)}
-function render(){locked=false;let q=qs[idx];document.getElementById("round").textContent=`${idx+1} / ${N}`;document.getElementById("prog").style.width=`${idx/N*100}%`;document.getElementById("s1").textContent=`Player 1: ${scores[0]}`;document.getElementById("s2").textContent=`Player 2: ${scores[1]}`;document.getElementById("tag").textContent=q.t;document.getElementById("q").textContent=q.q;document.getElementById("visual").innerHTML=q.v;document.getElementById("fb").textContent="";document.getElementById("next").style.display="none";let t=document.getElementById("turn");if(mode===2){t.textContent=player===0?"🔵 Player 1's Turn":"🟠 Player 2's Turn";t.className="badge turn "+(player===1?"orange":"")}else{t.textContent="👤 Your Turn";t.className="badge turn"}let box=document.getElementById("answers");box.innerHTML="";q.o.forEach(op=>{let b=document.createElement("button");b.className="ans";b.textContent=op;b.onclick=()=>answer(b,op);box.appendChild(b)})}
-function answer(b,op){if(locked)return;locked=true;let q=qs[idx],ok=op===q.a;document.querySelectorAll(".ans").forEach(x=>x.disabled=true);if(ok){b.classList.add("ok");tone(700);scores[mode===2?player:0]++;fb(`✅ Correct! ${q.x}`,true)}else{b.classList.add("no");tone(200);document.querySelectorAll(".ans").forEach(x=>{if(x.textContent.trim()===q.a)x.classList.add("ok")});fb(`💡 ${q.x}`,false)}document.getElementById("s1").textContent=`Player 1: ${scores[0]}`;document.getElementById("s2").textContent=`Player 2: ${scores[1]}`;document.getElementById("next").style.display="block"}
-function fb(t,g){let f=document.getElementById("fb");f.textContent=t;f.style.color=g?"#14884b":"#b43b3b"}
+function scale(v,u,max){const cx=350,cy=205,r=120,startDeg=-160,endDeg=-20;let ticks="",labels="";for(let i=0;i<=10;i++){const deg=startDeg+i*((endDeg-startDeg)/10),a=deg*Math.PI/180,x1=cx+Math.cos(a)*(r-18),y1=cy+Math.sin(a)*(r-18),x2=cx+Math.cos(a)*(r+2),y2=cy+Math.sin(a)*(r+2),tx=cx+Math.cos(a)*(r+34),ty=cy+Math.sin(a)*(r+34)+7,lab=u==="kg"?i:i*100;ticks+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#2f80d1" stroke-width="5" stroke-linecap="round"/>`;labels+=`<text x="${tx}" y="${ty}" font-size="22" text-anchor="middle" font-weight="900" fill="#17324b">${lab}</text>`}const pd=startDeg+(v/max)*(endDeg-startDeg),pa=pd*Math.PI/180,px=cx+Math.cos(pa)*(r-28),py=cy+Math.sin(pa)*(r-28);return `<svg class="scale" viewBox="0 0 700 300" aria-label="weighing scale"><path d="M ${cx+Math.cos(startDeg*Math.PI/180)*r} ${cy+Math.sin(startDeg*Math.PI/180)*r} A ${r} ${r} 0 0 1 ${cx+Math.cos(endDeg*Math.PI/180)*r} ${cy+Math.sin(endDeg*Math.PI/180)*r}" fill="none" stroke="#2f80d1" stroke-width="5"/>${ticks}${labels}<rect x="165" y="205" width="370" height="60" rx="16" fill="#f7fbff" stroke="#2f80d1" stroke-width="5"/><line x1="${cx}" y1="${cy}" x2="${px}" y2="${py}" stroke="#e84545" stroke-width="8" stroke-linecap="round"/><circle cx="${cx}" cy="${cy}" r="11" fill="#e84545"/><text x="350" y="252" font-size="32" text-anchor="middle" font-weight="900" fill="#17324b">${u}</text></svg>`}
+function nums(a,u){const step=u==="kg"?1:100,c=[a,a-step,a+step,a+2*step,a-2*step,a+3*step],unique=[],seen=new Set();for(const v of c){if(v>0&&!seen.has(v)){seen.add(v);unique.push(`${v} ${u}`)}if(unique.length===4)break}let extra=a+4*step;while(unique.length<4){if(!seen.has(extra)){seen.add(extra);unique.push(`${extra} ${u}`)}extra+=step}return sh(unique)}
+function build(){let q=[];for(let i=0;i<3;i++){const kg=Math.random()<.5,v=kg?pick([1,2,3,4,5,6,7,8,9]):pick([100,200,300,400,500,600,700,800,900]),u=kg?"kg":"g";q.push({t:"Read mass",q:"What mass is shown on the scale?",v:scale(v,u,kg?10:1000),o:nums(v,u),a:`${v} ${u}`,x:`The pointer is at ${v} ${u}.`})}sh(objs).slice(0,2).forEach(o=>q.push({t:"Choose unit",q:`A ${o.n} is about ${o.m} ___ .`,v:`<div class="masspair">${card(o,`${o.m} ___`)}</div>`,o:sh(["kg","g"]),a:o.u,x:`${o.m} ${o.u} is sensible for a ${o.n}.`}));for(let i=0;i<3;i++){const u=Math.random()<.5?"kg":"g",p=objs.filter(o=>o.u===u),[a,b]=pickTwoDifferentMass(p),H=a.m>b.m?a:b,L=a.m>b.m?b:a,d=H.m-L.m;if(i===0)q.push({t:"Compare mass",q:"Which object is heavier?",v:`<div class="masspair">${card(a,`${a.m} ${u}`)}${card(b,`${b.m} ${u}`)}</div>`,o:sh([a.n,b.n]),a:H.n,x:`${H.m} ${u} is greater than ${L.m} ${u}.`});else q.push({t:"Compare mass",q:`How much heavier is the ${H.n} than the ${L.n}?`,v:`<div class="masspair">${card(H,`${H.m} ${u}`)}${card(L,`${L.m} ${u}`)}</div>`,o:nums(d,u),a:`${d} ${u}`,x:`${H.m} − ${L.m} = ${d} ${u}.`})}for(const u of["g","kg"]){const trio=pickThreeDifferentMass(objs.filter(o=>o.u===u)),s=[...trio].sort((a,b)=>a.m-b.m),A=s.map(x=>x.n).join(" → ");q.push({t:"Order mass",q:"Arrange from lightest to heaviest.",v:`<div class="masspair">${trio.map(x=>card(x,`${x.m} ${u}`)).join("")}</div>`,o:sh([A,[s[1],s[0],s[2]].map(x=>x.n).join(" → "),[...s].reverse().map(x=>x.n).join(" → "),[s[0],s[2],s[1]].map(x=>x.n).join(" → ")]),a:A,x:s.map(x=>`${x.m} ${u}`).join(" < ")})}q.push({t:"Estimate mass",q:"Which is the most sensible mass for a school bag?",v:`<div class="masspair">${card({n:"school bag",e:"🎒"},"Mass ?")}</div>`,o:sh(["3 kg","3 g","300 g","30 kg"]),a:"3 kg",x:"3 kg is sensible."});q.push({t:"Estimate mass",q:"Which is the most sensible mass for an apple?",v:`<div class="masspair">${card({n:"apple",e:"🍎"},"Mass ?")}</div>`,o:sh(["180 g","180 kg","18 kg","1 kg"]),a:"180 g",x:"180 g is sensible."});return sh(q).slice(0,N)}
+function makePins(){const box=document.getElementById("pins");box.innerHTML="";const pos=[[71,4],[52,19],[89,19],[35,35],[71,35],[107,35],[18,52],[53,52],[89,52],[124,52]];pos.forEach((p,i)=>{const x=document.createElement("div");x.className="pin";x.style.left=p[0]+"px";x.style.top=p[1]+"px";x.dataset.i=i;box.appendChild(x)})}
+function render(){locked=false;makePins();const q=qs[idx];document.getElementById("round").textContent=`Roll ${idx+1} / ${N}`;document.getElementById("prog").style.width=`${idx/N*100}%`;updateScores();document.getElementById("tag").textContent=q.t;document.getElementById("q").textContent=q.q;document.getElementById("visual").innerHTML=q.v;document.getElementById("fb").textContent="";document.getElementById("next").style.display="none";document.getElementById("strikeBurst").style.display="none";document.getElementById("gutter").style.display="none";document.getElementById("alleyMsg").textContent=mode===2?`Player ${player+1}: answer correctly for a strike!`:"Answer correctly for a strike!";const t=document.getElementById("turn");if(mode===2){t.textContent=player===0?"🔵 Player 1's Roll":"🟠 Player 2's Roll";t.className="badge turn "+(player===1?"orange":"")}else{t.textContent="🎳 Your Roll";t.className="badge turn"}const box=document.getElementById("answers");box.innerHTML="";q.o.forEach(op=>{const b=document.createElement("button");b.className="ans";b.textContent=op;b.onclick=()=>answer(b,op);box.appendChild(b)})}
+function updateScores(){document.getElementById("s1").textContent=`${mode===1?"You":"Player 1"}: ${scores[0]} pins`;document.getElementById("s2").textContent=`Player 2: ${scores[1]} pins`}
+async function answer(b,op){if(locked)return;locked=true;const q=qs[idx],ok=op===q.a,p=mode===2?player:0;document.querySelectorAll(".ans").forEach(x=>x.disabled=true);if(ok){b.classList.add("ok");correctSound();corrects[p]++;scores[p]+=10;fb(`✅ Correct! ${q.x}`,true);await bowl(true,p)}else{b.classList.add("no");wrongSound();document.querySelectorAll(".ans").forEach(x=>{if(x.textContent.trim()===q.a)x.classList.add("ok")});fb(`💡 ${q.x}`,false);await bowl(false,p)}updateScores();document.getElementById("next").style.display="block"}
+function bowl(strike,p){return new Promise(resolve=>{const ball=document.getElementById("ball"),alley=document.getElementById("alley"),r=alley.getBoundingClientRect();ball.classList.toggle("orange",p===1);ball.style.opacity="1";ball.style.left="50%";ball.style.bottom="5%";rollSound();const dx=strike?0:(p===1?Math.min(110,r.width*.2):-Math.min(110,r.width*.2));const dy=-Math.max(72,r.height*.58);const a=ball.animate([{transform:"translateX(-50%) translate(0,0) rotate(0deg)"},{transform:`translateX(-50%) translate(${dx*.45}px,${dy*.48}px) rotate(260deg)`,offset:.5},{transform:`translateX(-50%) translate(${dx}px,${dy}px) rotate(560deg)`}],{duration:650,easing:"ease-in"});a.onfinish=()=>{ball.style.opacity="0";if(strike){document.querySelectorAll(".pin").forEach((pin,i)=>setTimeout(()=>pin.classList.add("knocked"),i*25));strikeSound();document.getElementById("strikeBurst").style.display="block";document.getElementById("alleyMsg").textContent="10 pins! STRIKE!";setTimeout(()=>{document.getElementById("strikeBurst").style.display="none";resolve()},480)}else{document.getElementById("gutter").style.display="block";document.getElementById("alleyMsg").textContent="Gutter ball — 0 pins.";setTimeout(()=>{document.getElementById("gutter").style.display="none";resolve()},420)}}})}
+function fb(t,g){const f=document.getElementById("fb");f.textContent=t;f.style.color=g?"#14884b":"#b43b3b"}
 function nextQ(){idx++;if(idx>=N){finish();return}if(mode===2)player=1-player;render()}
-function finish(){show("results");if(mode===1){document.getElementById("rt").textContent="Mass Challenge Complete!";document.getElementById("rr").innerHTML=`You scored <b>${scores[0]} / ${N}</b>.`}else{let a=scores[0],b=scores[1];document.getElementById("rt").textContent=a===b?"It's a Draw!":`Player ${a>b?1:2} Wins!`;document.getElementById("rr").innerHTML=`Player 1: <b>${a}</b><br>Player 2: <b>${b}</b>`}}
+function finish(){document.getElementById("prog").style.width="100%";show("results");if(mode===1){const s=scores[0];document.getElementById("rt").textContent=s>=100?"Bowling Mass Champion!":s>=70?"Great Bowling!":"Keep Practising!";document.getElementById("rr").innerHTML=`You knocked down <b>${s} pins</b>.<br>Correct mass questions: <b>${corrects[0]} / ${N}</b>.`}else{const a=scores[0],b=scores[1];document.getElementById("rt").textContent=a===b?"It's a Draw!":`Player ${a>b?1:2} Wins the Bowling!`;document.getElementById("rr").innerHTML=`Player 1: <b>${a} pins</b> (${corrects[0]} correct)<br>Player 2: <b>${b} pins</b> (${corrects[1]} correct)`}}
 </script></body></html>
