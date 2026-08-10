@@ -16,7 +16,8 @@ jobs:
           p=Path('index.html'); s=p.read_text(encoding='utf-8')
           s=s.replace('for an pear?','for a pear?')
           s=s.replace('.ball.lemon','.ball.orange').replace('.turn.lemon','.turn.orange')
-          s=s.replace('classList.toggle("lemon"','classList.toggle("orange"').replace('?("lemon":"")','?("orange":"")')
+          s=s.replace('classList.toggle("lemon"','classList.toggle("orange"')
+          s=s.replace('player===1?"lemon":""','player===1?"orange":""')
           p.write_text(s,encoding='utf-8')
           PY
       - run: |
