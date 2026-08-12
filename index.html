@@ -70,5 +70,5 @@ function nextQ(){idx++;if(idx>=N){finish();return}if(mode===2)player=1-player;re
 function finish(){document.getElementById("prog").style.width="100%";show("results");if(mode===1){const s=scores[0];document.getElementById("rt").textContent=s>=100?"Bowling Mass Champion!":s>=70?"Great Bowling!":"Keep Practising!";document.getElementById("rr").innerHTML=`You knocked down <b>${s} pins</b>.<br>Correct mass questions: <b>${corrects[0]} / ${N}</b>.`}else{const a=scores[0],b=scores[1];document.getElementById("rt").textContent=a===b?"It's a Draw!":`Player ${a>b?1:2} Wins the Bowling!`;document.getElementById("rr").innerHTML=`Player 1: <b>${a} pins</b> (${corrects[0]} correct)<br>Player 2: <b>${b} pins</b> (${corrects[1]} correct)`}}
 </script>
 <script src="https://limkimsze-maker.github.io/P3-Length-Mass-and-Volume-Sports-Fiesta-/sports-fiesta-original-questions-v1.js?v=20260810a" data-practice="3"></script>
-<script src="https://limkimsze-maker.github.io/P3-Length-Mass-and-Volume-Sports-Fiesta-/sports-fiesta-medal-hook-v4.js?v=20260811a" data-practice="3" data-sport="Bowling"></script>
+<script src="https://limkimsze-maker.github.io/P3-Length-Mass-and-Volume-Sports-Fiesta-/sports-fiesta-medal-hook-v4.js?v=20260810d" data-practice="3" data-sport="Bowling"></script>
 </body></html>
